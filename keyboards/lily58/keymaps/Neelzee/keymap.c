@@ -35,7 +35,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 /* LOWER
  * ,-----------------------------------------.                    ,-----------------------------------------.
- * |      |      |      |      |      |      |                    |      |      |      |      |      |      |
+ * |   |  |      |   @  |      |   $  |   \  |                    |      |   {  |   [  |   ]  |   }  |   \  |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
  * |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |                    |  F7  |  F8  |  F9  | F10  | F11  | F12  |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
@@ -48,7 +48,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                   `----------------------------'           '------''--------------------'
  */
 [_LOWER] = LAYOUT(
-  _______, _______, _______, _______, _______, _______,                   _______, _______, _______,_______, _______, _______,
+  NO_PIPE, _______, NO_AT,   _______, NO_DLR,  _______,                   _______, NO_LCBR, NO_LBRC, NO_RBRC, NO_RCBR, NO_BSLS,
   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                     KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
   NO_QUOT, NO_EXLM, NO_AT,   NO_HASH, NO_DLR,  NO_PERC,                   NO_CIRC, NO_AMPR, NO_ASTR, NO_LPRN, NO_RPRN, NO_TILD,
   _______, _______, _______, _______, _______, _______, NO_LABK, NO_RABK, NO_SLSH, NO_UNDS, NO_MINS, NO_LCBR, NO_RCBR, NO_PIPE,
@@ -127,17 +127,37 @@ const char *read_keylogs(void);
 bool oled_task_user(void) {
   if (is_keyboard_master()) {
     // If you want to change the display of OLED, you need to change here
-    oled_write_ln(read_layer_state(), false);
-    oled_write_ln(read_keylog(), false);
-    oled_write_ln(read_keylogs(), false);
+    oled_write_ln(read_layer_state(), true);
+    oled_write_ln(read_keylog(), true);
+    oled_write_ln(read_keylogs(), true);
     //oled_write_ln(read_mode_icon(keymap_config.swap_lalt_lgui), false);
     //oled_write_ln(read_host_led_state(), false);
-    //oled_write_ln(read_timelog(), false);
+    //oled_write_ln(read_timelog(), true);
   } else {
-    oled_write(read_logo(), false);
+    oled_write(read_logo(), true);
   }
     return false;
 }
+
+void oled_render_boot(bool bootloader) {
+    oled_clear();
+    for (int i = 0; i < 16; i++) {
+        oled_set_cursor(0, i);
+        if (bootloader) {
+            oled_write_P(PSTR("Awaiting New Firmware "), false);
+        } else {
+            oled_write_P(PSTR("Rebooting "), false);
+        }
+    }
+
+    oled_render_dirty(true);
+}
+
+bool shutdown_user(bool jump_to_bootloader) {
+    oled_render_boot(jump_to_bootloader);
+    return jump_to_bootloader;
+}
+
 #endif // OLED_ENABLE
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
