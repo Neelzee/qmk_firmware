@@ -59,7 +59,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* SYMBOL
  * ,-----------------------------------------.                    ,-----------------------------------------.
- * |   |  |   '  |   @  |   £  |   $  |      |                    |      |   {  |   [  |   ]  |   }  |  `   |
+ * |   |  |   '  |   @  |   £  |   $  |   `  |                    |      |   {  |   [  |   ]  |   }  |  \   |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
  * |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |                    |  F7  |  F8  |  F9  | F10  | F11  | F12  |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
@@ -73,7 +73,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 
  [_SYMBOL] = LAYOUT(
-  NO_PIPE, NO_QUOT, NO_AT,   NO_PND,  NO_DLR,  _______,                   _______, NO_LCBR, NO_LBRC, NO_RBRC, NO_RCBR, NO_BSLS,
+  NO_PIPE, NO_QUOT, NO_AT,   NO_PND,  NO_DLR,  NO_ACUT,                   _______, NO_LCBR, NO_LBRC, NO_RBRC, NO_RCBR, NO_BSLS,
   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                     KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
   _______, _______, _______, _______, _______, _______,                   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, NO_TILD,
   _______, _______, _______, _______, _______, _______, _______, _______, _______, NO_LABK, NO_CIRC, NO_ASTR, NO_RABK, _______,
